@@ -25,6 +25,12 @@
 
 /*Color depth: 1 (1 byte per pixel), 8 (RGB332), 16 (RGB565), 32 (ARGB8888)*/
 #define LV_COLOR_DEPTH 32
+#define LV_COLOR_16_SWAP 0 
+
+/*Enable more complex drawing routines to manage screens transparency.
+ *Can be used if the UI is above another layer, e.g. an OSD menu or video player.
+ *Requires `LV_COLOR_DEPTH = 32` colors and the screen's `bg_opa` should be set to non LV_OPA_COVER value*/
+#define LV_COLOR_SCREEN_TRANSP 0
 
 #define LV_COLOR_CHROMA_KEY lv_color_hex(0x00ff00)
 
@@ -33,7 +39,7 @@
  *=========================*/
 
 /*Enable and configure the built-in memory manager*/
-#define LV_USE_BUILTIN_MALLOC 1
+#define LV_USE_BUILTIN_MALLOC 0
 #if LV_USE_BUILTIN_MALLOC
     /*Size of the memory available for `lv_malloc()` in bytes (>= 2kB)*/
     #define LV_MEM_SIZE (128U * 1024U)          /*[bytes]*/
@@ -51,26 +57,26 @@
 #endif  /*LV_USE_BUILTIN_MALLOC*/
 
 /*Enable lv_memcpy_builtin, lv_memset_builtin, lv_strlen_builtin, lv_strncpy_builtin*/
-#define LV_USE_BUILTIN_MEMCPY 1
+#define LV_USE_BUILTIN_MEMCPY 0
 
 /*Enable and configure the built-in (v)snprintf */
-#define LV_USE_BUILTIN_SNPRINTF 1
+#define LV_USE_BUILTIN_SNPRINTF 0
 #if LV_USE_BUILTIN_SNPRINTF
     #define LV_SPRINTF_USE_FLOAT 0
 #endif  /*LV_USE_BUILTIN_SNPRINTF*/
 
-#define LV_STDLIB_INCLUDE <stdint.h>
-#define LV_STDIO_INCLUDE  <stdint.h>
-#define LV_STRING_INCLUDE <stdint.h>
-#define LV_MALLOC       lv_malloc_builtin
-#define LV_REALLOC      lv_realloc_builtin
-#define LV_FREE         lv_free_builtin
-#define LV_MEMSET       lv_memset_builtin
-#define LV_MEMCPY       lv_memcpy_builtin
-#define LV_SNPRINTF     lv_snprintf_builtin
-#define LV_VSNPRINTF    lv_vsnprintf_builtin
-#define LV_STRLEN       lv_strlen_builtin
-#define LV_STRNCPY      lv_strncpy_builtin
+#define LV_STDLIB_INCLUDE <stdlib.h>
+#define LV_STDIO_INCLUDE  <stdio.h>
+#define LV_STRING_INCLUDE <string.h>
+#define LV_MALLOC       malloc
+#define LV_REALLOC      realloc
+#define LV_FREE         free
+#define LV_MEMSET       memset
+#define LV_MEMCPY       memcpy
+#define LV_SNPRINTF     snprintf
+#define LV_VSNPRINTF    vsnprintf
+#define LV_STRLEN       strlen
+#define LV_STRNCPY      strncpy
 
 /*====================
    HAL SETTINGS
@@ -78,10 +84,10 @@
 
 /*Use a custom tick source that tells the elapsed time in milliseconds.
  *It removes the need to manually update the tick with `lv_tick_inc()`)*/
-#define LV_TICK_CUSTOM 0
+#define LV_TICK_CUSTOM 1
 #if LV_TICK_CUSTOM
-    #define LV_TICK_CUSTOM_INCLUDE "Arduino.h"         /*Header for the system time function*/
-    #define LV_TICK_CUSTOM_SYS_TIME_EXPR (millis())    /*Expression evaluating to current system time in ms*/
+    #define LV_TICK_CUSTOM_INCLUDE <SDL2/SDL.h>         /*Header for the system time function*/
+    #define LV_TICK_CUSTOM_SYS_TIME_EXPR SDL_GetTicks()    /*Expression evaluating to current system time in ms*/
     /*If using lvgl as ESP32 component*/
     // #define LV_TICK_CUSTOM_INCLUDE "esp_timer.h"
     // #define LV_TICK_CUSTOM_SYS_TIME_EXPR ((esp_timer_get_time() / 1000LL))
@@ -155,7 +161,7 @@
 #endif
 
 /*Use SDL renderer API*/
-#define LV_USE_DRAW_SDL 1
+#define LV_USE_DRAW_SDL 0
 #if LV_USE_DRAW_SDL
     #define LV_DRAW_SDL_INCLUDE_PATH <SDL2/SDL.h>
     /*Texture cache size, 8MB by default*/
@@ -641,7 +647,7 @@
 #define LV_USE_BARCODE 0
 
 /*FreeType library*/
-#define LV_USE_FREETYPE 1
+#define LV_USE_FREETYPE 0
 #if LV_USE_FREETYPE
     /*Memory used by FreeType to cache characters [bytes]*/
     #define LV_FREETYPE_CACHE_SIZE (64 * 1024)
@@ -741,7 +747,7 @@
 *==================*/
 
 /*Enable the examples to be built with the library*/
-#define LV_BUILD_EXAMPLES 1
+#define LV_BUILD_EXAMPLES 0
 
 /*===================
  * DEMO USAGE
