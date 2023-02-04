@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "monitor.h": "c",
+        "mouse.h": "c",
+        "sdl.h": "c"
+    }
+}
