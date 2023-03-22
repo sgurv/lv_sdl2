@@ -24,10 +24,10 @@ int main(int argc, char *argv[]){
     /*Initialize the HAL (display, input devices, tick) for LVGL*/
     hal_init();
 
-    //ui_init();
+    ui_init();
     //lv_demo_music();
     //lv_demo_widgets();
-    lv_demo_benchmark();
+    //lv_demo_benchmark();
 
     while(1){
         /* Periodically call the lv_task handler.
